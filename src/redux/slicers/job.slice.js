@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from "uuid";
 
 const initialState = {
-  jobList: {
+  taskList: {
     data: [
       {
         id: uuidv4(),
@@ -25,20 +25,26 @@ const initialState = {
 };
 
 export const jobSlice = createSlice({
-  name: "job",
+  name: "task",
   initialState: initialState,
   reducers: {
-    addJob: (state, action) => {
-      state.jobList.data.unshift(action.payload);
+    addTask: (state, action) => {
+      state.taskList.data.unshift(action.payload);
     },
-    updateJob: (state, action) => {
+    updateTask: (state, action) => {
       const { id, values } = action.payload;
-      const index = state.jobList.data.findIndex((item) => item.id === id);
-      state.jobList.data.splice(index, 1, { id, ...values });
+      const index = state.taskList.data.findIndex((item) => item.id === id);
+      state.taskList.data.splice(index, 1, { id, ...values });
+    },
+    deleteTask: (state, action) => {
+      const { id } = action.payload;
+      state.taskList.data = state.taskList.data.filter(
+        (item) => item.id !== id
+      );
     },
   },
 });
 
-export const { addJob, updateJob } = jobSlice.actions;
+export const { addTask, updateTask, deleteTask } = jobSlice.actions;
 
 export default jobSlice.reducer;
